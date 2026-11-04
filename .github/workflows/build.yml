@@ -1,0 +1,27 @@
+name: Build Kivy APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Buildozer/P4A Action
+      uses: ArtemSanya/buildozer-action@v1
+      with:
+        workdir: .
+        # This acts as our automated buildozer command to trigger p4a under the hood
+        buildozer_version: stable
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Kivy-Hello-World-APK
+        path: bin/*.apk
